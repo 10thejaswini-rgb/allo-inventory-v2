@@ -22,11 +22,11 @@ export default function RootLayout({
                 <span className="text-white text-xs font-bold font-mono">A</span>
               </div>
               <span className="font-semibold text-[var(--text-primary)] tracking-tight">
-                allo
+                Thejaswini
               </span>
             </a>
             <span className="text-xs font-mono text-[var(--text-muted)] bg-[var(--bg)] px-2 py-1 rounded border border-[var(--border)]">
-              inventory demo
+              built for allo
             </span>
           </div>
         </header>
