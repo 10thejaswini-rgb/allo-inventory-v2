@@ -12,15 +12,13 @@ export async function POST(
 
   try {
     const result = await prisma.$transaction(async (tx) => {
-      const rows = await tx.$queryRaw
-        Array<{
-          id: string;
-          status: string;
-          product_id: string;
-          warehouse_id: string;
-          quantity: number;
-        }>
-      >`
+      const rows = await tx.$queryRaw<Array<{
+        id: string;
+        status: string;
+        product_id: string;
+        warehouse_id: string;
+        quantity: number;
+      }>>`
         SELECT id, status, "productId" AS product_id, "warehouseId" AS warehouse_id, quantity
         FROM "Reservation"
         WHERE id = ${id}
@@ -28,9 +26,7 @@ export async function POST(
       `;
 
       if (rows.length === 0) return { type: "NOT_FOUND" as const };
-
       const res = rows[0];
-
       if (res.status !== "PENDING") {
         return { type: "ALREADY_SETTLED" as const, status: res.status };
       }
@@ -53,7 +49,6 @@ export async function POST(
     if (result.type === "NOT_FOUND") {
       return NextResponse.json({ error: "Reservation not found" }, { status: 404 });
     }
-
     if (result.type === "ALREADY_SETTLED") {
       return NextResponse.json({ message: `Reservation is already ${result.status.toLowerCase()}` });
     }
