@@ -1,8 +1,10 @@
 {
+  "framework": "nextjs",
+  "buildCommand": "npx prisma generate && next build",
   "crons": [
     {
       "path": "/api/cron/expire",
-      "schedule": "0 0 * * *"
+      "schedule": "* * * * *"
     }
   ]
 }
