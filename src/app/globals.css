@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,42 +6,32 @@
 
 @layer base {
   :root {
-    --bg: #f8fafc;
+    --bg: #f5f5f4;
     --surface: #ffffff;
-    --border: #e2e8f0;
-    --text-primary: #0f172a;
-    --text-secondary: #475569;
-    --text-muted: #94a3b8;
-    --accent: #0ea5e9;
-    --accent-hover: #0284c7;
-    --success: #10b981;
-    --warning: #f59e0b;
-    --danger: #ef4444;
+    --surface-2: #fafaf9;
+    --border: #e7e5e4;
+    --border-strong: #d6d3d1;
+    --text-primary: #1c1917;
+    --text-secondary: #57534e;
+    --text-muted: #a8a29e;
+    --accent: #1c1917;
+    --accent-hover: #44403c;
+    --success: #16a34a;
+    --warning: #d97706;
+    --danger: #dc2626;
     --danger-bg: #fef2f2;
     --warning-bg: #fffbeb;
     --success-bg: #f0fdf4;
   }
-
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  html {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text-primary);
-    -webkit-font-smoothing: antialiased;
-  }
-
-  body {
-    min-height: 100vh;
-  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text-primary); -webkit-font-smoothing: antialiased; letter-spacing: -0.01em; }
+  body { min-height: 100vh; }
 }
+@layer utilities { .font-mono { font-family: 'JetBrains Mono', monospace; } }
 
-@layer utilities {
-  .font-mono {
-    font-family: 'IBM Plex Mono', monospace;
-  }
-}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulseSubtle { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+.animate-fade-in { animation: fadeIn 0.4s ease-out both; }
+.animate-pulse-subtle { animation: pulseSubtle 1.5s ease-in-out infinite; }
+.animate-spin { animation: spin 0.8s linear infinite; }
