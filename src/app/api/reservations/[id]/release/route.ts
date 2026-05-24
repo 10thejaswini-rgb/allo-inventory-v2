@@ -1,4 +1,3 @@
-// src/app/api/reservations/[id]/release/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import type { ReservationDTO } from "@/lib/schemas";
@@ -13,7 +12,7 @@ export async function POST(
 
   try {
     const result = await prisma.$transaction(async (tx) => {
-      const rows = await tx.$queryRaw<
+      const rows = await tx.$queryRaw
         Array<{
           id: string;
           status: string;
@@ -28,22 +27,17 @@ export async function POST(
         FOR UPDATE
       `;
 
-      if (rows.length === 0) {
-        return { type: "NOT_FOUND" as const };
-      }
+      if (rows.length === 0) return { type: "NOT_FOUND" as const };
 
       const res = rows[0];
 
       if (res.status !== "PENDING") {
-        // Idempotent — already released or confirmed, just return current state
         return { type: "ALREADY_SETTLED" as const, status: res.status };
       }
 
-      // Release reserved units
       await tx.$executeRaw`
         UPDATE "StockLevel"
-        SET "reservedUnits" = "reservedUnits" - ${res.quantity},
-            "updatedAt" = now()
+        SET "reservedUnits" = "reservedUnits" - ${res.quantity}
         WHERE "productId" = ${res.product_id} AND "warehouseId" = ${res.warehouse_id}
       `;
 
@@ -61,10 +55,7 @@ export async function POST(
     }
 
     if (result.type === "ALREADY_SETTLED") {
-      // Return 200 for idempotency — the state is already what the client wants
-      return NextResponse.json({
-        message: `Reservation is already ${result.status.toLowerCase()}`,
-      });
+      return NextResponse.json({ message: `Reservation is already ${result.status.toLowerCase()}` });
     }
 
     const { reservation } = result;
